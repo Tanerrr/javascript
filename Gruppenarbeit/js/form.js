@@ -18,6 +18,7 @@ const errorElement = document.getElementById('error');
 const checkbox = document.getElementById('input-privacy');
 
 document.getElementById('submit').addEventListener('click', function submitForm(event){
+    event.preventDefault();
     let messages = []
 
     if (checkbox.checked === false) {
@@ -28,7 +29,7 @@ document.getElementById('submit').addEventListener('click', function submitForm(
         messages.push('Name is required');
         inputfullname.className += " border-red-500";  
     }else{
-        inputfullname.className += " border-blue-500";
+        inputfullname.className = inputfullname.className.replace(/\bborder-red-500\b/g, "border-blue-500");
     }
     if (number.value === "" || number.value == null) {
         messages.push('Number is required');
@@ -43,18 +44,25 @@ document.getElementById('submit').addEventListener('click', function submitForm(
         textboxform.className += " border-red-500";
     }
     if (messages.length > 0) {
-        event.preventDefault();
         errorElement.innerText = messages[0] //.join(', ')       
-    }
-
-    const formData = new FormData(this);
-
-    const request = new XMLHttpRequest();
-    request.open("POST", "https://hsh.blnq.dev/javascript-basics/form-fetch.php");
-    request.onreadystatechange = function (){
-        if (request.readyState == XMLHttpRequest.DONE){
-            console.log(request.responseText);
+    }else{
+        console.log('status ok')
+        //document.getElementById('support-form').addEventListener('submit', function submitForm(event){
+            //event.preventDefault();
+            const formData = new FormData();
+            formData.append("Name: ", inputfullname.value);
+            formData.append("Number: ",number.value);
+            formData.append("Email: ",email.value);
+            formData.append("Message: ",textboxform.value);
+            const request = new XMLHttpRequest();
+            console.log(request);
+            request.open("POST", "https://hsh.blnq.dev/javascript-basics/form-fetch.php");
+            request.onreadystatechange = function (){
+                if (request.readyState == XMLHttpRequest.DONE){
+                    console.log(request.responseText);
+                }
+            }
+            request.send(formData);
+            console.log('status ok')
         }
-    }
-    request.send(formdata);
 });

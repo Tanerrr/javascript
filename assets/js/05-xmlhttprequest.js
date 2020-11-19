@@ -4,6 +4,7 @@
 
 document.getElementById('fetch-form').addEventListener('submit', function submitForm(event){
     event.preventDefault();
+    console.log('inordnung');
 
     const formData = new FormData(this);
 
@@ -14,8 +15,10 @@ document.getElementById('fetch-form').addEventListener('submit', function submit
             console.log(request.responseText);
         }
     }
-    request.send(formdata);
+    request.send(formData);
 });
+
+
 
 // get data from public api https://openlibrary.org/books/OL7353617M.json
 // and display the title, first sentence & isbn 13 in the #output element
